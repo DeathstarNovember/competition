@@ -19,16 +19,16 @@ config :competition, CompetitionWeb.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
-  check_origin: false,
-  watchers: [
-    node: [
-      "node_modules/webpack/bin/webpack.js",
-      "--mode",
-      "development",
-      "--watch-stdin",
-      cd: Path.expand("../assets", __DIR__)
-    ]
-  ]
+  check_origin: false
+  # watchers: [
+  #   node: [
+  #     # "node_modules/webpack/bin/webpack.js",
+  #     "--mode",
+  #     "development",
+  #     "--watch-stdin",
+  #     # cd: Path.expand("../assets", __DIR__)
+  #   ]
+  # ]
 
 # ## SSL Support
 #
@@ -55,15 +55,15 @@ config :competition, CompetitionWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :competition, CompetitionWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/competition_web/{live,views}/.*(ex)$",
-      ~r"lib/competition_web/templates/.*(eex)$"
-    ]
-  ]
+# config :competition, CompetitionWeb.Endpoint
+  # live_reload: [
+  #   patterns: [
+  #     ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+  #     ~r"priv/gettext/.*(po)$",
+  #     ~r"lib/competition_web/{live,views}/.*(ex)$",
+  #     ~r"lib/competition_web/templates/.*(eex)$"
+  #   ]
+  # ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
