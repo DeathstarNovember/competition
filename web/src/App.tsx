@@ -1,8 +1,12 @@
 import React from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
-import UserList from "./UserList";
+import { ThemeProvider } from "styled-components";
+import { theme } from "./ui";
+import UserList from "./components/UserList";
 import "./App.css";
+import Contest from "./components/Contest";
+import { Box } from "./ui";
 
 const App: React.FC = () => {
   const client = new ApolloClient({
@@ -10,8 +14,12 @@ const App: React.FC = () => {
   });
   return (
     <ApolloProvider client={client}>
-      <h1>Competition</h1>
-      <UserList />
+      <ThemeProvider theme={theme}>
+        <Box alignItems="center" flexDirection="column">
+          <h1>Competition</h1>
+          <Contest />
+        </Box>
+      </ThemeProvider>
     </ApolloProvider>
   );
 };
