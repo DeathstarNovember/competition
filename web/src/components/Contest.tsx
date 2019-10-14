@@ -3,7 +3,7 @@ import { Box, Text } from "../ui";
 
 const Contest = () => {
   return (
-    <Box flex={1} m={2} p={3} maxWidth={800} bg="lightblue">
+    <Box flex={1} m={2} p={3} bg="lightblue">
       <Text as="h3">Contest</Text>
       <Box flexDirection="row">
         <Text p={2}>Distance</Text>
