@@ -6,13 +6,16 @@ defmodule CompetitionWeb.Schema do
 
   query do
     import_fields(:account_queries)
+    import_fields(:comp_queries)
   end
 
   mutation do
     import_fields(:account_mutations)
+    import_fields(:comp_mutations)
   end
 
   subscription do
     import_fields(:account_subscriptions)
+    import_fields(:comp_subscriptions)
   end
 end
