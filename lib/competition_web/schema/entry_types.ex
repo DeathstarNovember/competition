@@ -10,6 +10,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :user, :user, resolve: assoc(:user)
     field :distance, :integer
     field :time, :integer
+    field :stroke_rate, :integer
     field :completed_at, :naive_datetime
   end
 

@@ -11,7 +11,7 @@ defmodule Competition.Entries do
   @doc """
   Returns the list of entries.
   """
-  def list_enrtries do
+  def list_entries do
     Repo.all(Entry)
   end
 
