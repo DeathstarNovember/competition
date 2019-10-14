@@ -1,6 +1,7 @@
 defmodule Competition.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Competition.Entries.Entry
 
   schema "users" do
     field :dob, :naive_datetime
@@ -10,7 +11,7 @@ defmodule Competition.Accounts.User do
     field :password_hash, :string
     field :username, :string
     field :war_cry, :string
-    has_many: :entries, Entry
+    has_many :entries, Entry
 
     timestamps()
   end

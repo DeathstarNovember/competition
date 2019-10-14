@@ -1,12 +1,12 @@
-defmodule Entryetition.Entries do
+defmodule Competition.Entries do
   @moduledoc """
   The Entries context.
   """
 
   import Ecto.Query, warn: false
-  alias Entryetition.Repo
+  alias Competition.Repo
 
-  alias Entryetition.Entries.Entry
+  alias Competition.Entries.Entry
 
   @doc """
   Returns the list of entries.

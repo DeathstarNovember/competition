@@ -17,7 +17,8 @@ defmodule CompetitionWeb.Schema.AccountTypes do
     field :entries, list_of(:entry) do
       resolve(
         assoc(:entries, fn entries_query, _args, _context ->
-          entries_query |> order_by(desc: completed_at))
+          entries_query 
+        end)
       )
     end
   end

@@ -10,11 +10,12 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :user, :user, resolve: assoc(:user)
     field :distance, :integer
     field :time, :integer
-    field :completed_at, :niave_datetime
+    field :completed_at, :naive_datetime
   end
 
   object :entry_queries do
-    @desc :list_entries, list_of(:entry) do
+    @desc "Get all entries"
+    field :list_entries, list_of(:entry) do
       resolve(&Resolvers.EnreiesResolver.list_entries/3)
     end
   end

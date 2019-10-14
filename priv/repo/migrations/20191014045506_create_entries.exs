@@ -6,6 +6,7 @@ defmodule Competition.Repo.Migrations.CreateEntries do
       add :distance, :integer
       add :time, :integer
       add :stroke_rate, :integer
+      add :completed_at, :naive_datetime
       add :user_id, references(:users, on_delete: :nothing)
 
       timestamps()
