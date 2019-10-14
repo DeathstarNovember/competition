@@ -10,6 +10,7 @@ defmodule Competition.Accounts.User do
     field :password_hash, :string
     field :username, :string
     field :war_cry, :string
+    has_many: :entries, Entry
 
     timestamps()
   end

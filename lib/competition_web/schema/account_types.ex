@@ -14,6 +14,12 @@ defmodule CompetitionWeb.Schema.AccountTypes do
     field :email, :string
     field :password_hash, :string
     field :war_cry, :string
+    field :entries, list_of(:entry) do
+      resolve(
+        assoc(:entries, fn entries_query, _args, _context ->
+          entries_query |> order_by(desc: completed_at))
+      )
+    end
   end
 
   object :account_queries do
@@ -41,7 +47,15 @@ defmodule CompetitionWeb.Schema.AccountTypes do
   object :account_subscriptions do
     @desc "Populate new users"
     field :user_created, :user do
-      
+      config(fn _, _ ->
+        {:ok, topic: "users"}
+      end)
+
+      trigger(:create_user,
+        topic: fn _ ->
+          "users"
+        end
+      )
     end
   end
 end

@@ -5,15 +5,18 @@ defmodule Competition.Comps.Entry do
   schema "entries" do
     field :distance, :integer
     field :time, :integer
-    field :user_id, :id
+    field :stroke_rate, :integer
+    belongs_to :user, User
 
     timestamps()
   end
 
   @doc false
+  @required_fields ~w(distance time stroke_rate user_id)a
+  @optional_fields ~w()a
   def changeset(entries, attrs) do
     entries
-    |> cast(attrs, [:distance, :time])
-    |> validate_required([:distance, :time])
+    |> cast(attrs, @required_fields ++ @optional_fields)
+    |> validate_required(@required_fields)
   end
 end

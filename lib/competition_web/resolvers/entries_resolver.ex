@@ -1,16 +1,16 @@
-defmodule CompetitionWeb.Resolvers.CompsResolver do
-  alias Competition.Comps
+defmodule CompetitionWeb.Resolvers.EntriesResolver do
+  alias Competition.Entries
 
-  def list_comps(_parent, _args, _resolutions) do
-    {:ok, Comps.list_comps()}
+  def list_Entries(_parent, _args, _resolutions) do
+    {:ok, Entries.list_Entries()}
   end
 
-  def create_comp(_parent, args, _resolutions) do
+  def create_entry(_parent, args, _resolutions) do
     args
-    |> Comps.create_comp()
+    |> Entries.create_entry()
     |> case do
-      {:ok, comp} ->
-        {:ok, comp}
+      {:ok, entry} ->
+        {:ok, entry}
 
       {:error, changeset} ->
         {:error, extract_error_msg(changeset)}
