@@ -17,7 +17,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
   object :entry_queries do
     @desc "Get all entries"
     field :list_entries, list_of(:entry) do
-      resolve(&Resolvers.EnreiesResolver.list_entries/3)
+      resolve(&Resolvers.EntriesResolver.list_entries/3)
     end
   end
 

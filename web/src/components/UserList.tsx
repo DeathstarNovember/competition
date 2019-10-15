@@ -17,10 +17,14 @@ const LIST_USERS = gql`
 const UserList = () => {
   const { loading, error, data } = useQuery(LIST_USERS);
   if (loading) {
-    return <div>Loading....</div>;
+    return <div className="p-6 rounded-lg shadow-xl">Loading....</div>;
   }
   if (error) {
-    return <div>Error: {JSON.stringify(error)}</div>;
+    return (
+      <div className="p-6 bg-red-200  rounded-lg shadow-xl text-red-900">
+        Error: {JSON.stringify(error)}
+      </div>
+    );
   }
   return (
     <div>

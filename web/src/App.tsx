@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useEffect } from "react";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ThemeProvider } from "styled-components";
@@ -6,9 +6,7 @@ import { theme } from "./ui";
 // import UserList from './components/UserList'
 import Login from "./components/Login";
 // import './App.css'
-import CompetitionList from "./components/CompetitionList";
 // import { Box } from './ui'
-import { initialState, contestsReducer } from "./reducer";
 import { Router, navigate } from "@reach/router";
 
 import { useLocalStorage } from "./hooks";
@@ -53,11 +51,6 @@ const AppBar: React.FC<AppBarProps> = ({ currentUser, onSignOut }) => {
 };
 
 const App: React.FC = () => {
-  const [{ comps, entries }, dispatch] = useReducer(
-    contestsReducer,
-    initialState
-  );
-
   const [currentUser, setCurrentUser] = useLocalStorage("CURRENT_USER", "");
 
   const handleSignOut = () => {
@@ -80,12 +73,7 @@ const App: React.FC = () => {
 
           <Router>
             <Login path="login" selectUser={setCurrentUser} />
-            <Dashboard
-              path="/"
-              currentUser={currentUser}
-              comps={comps}
-              entries={entries}
-            />
+            <Dashboard path="/" currentUser={currentUser} />
           </Router>
         </div>
       </ThemeProvider>

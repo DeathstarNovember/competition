@@ -1,27 +1,20 @@
 import React from "react";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-import { Comp, ContestEntry, Competitor } from "../reducer/initialState";
-import { RouteComponentProps, navigate } from "@reach/router";
+import { Entry, User } from "../types";
+import { RouteComponentProps } from "@reach/router";
+import EntryFeed from "./EntryFeed";
 
 import CreateEntry from "./CreateEntry";
-import CompetitionList from "./CompetitionList";
 
 type Props = {
-  currentUser: Competitor;
-  comps: Comp[];
-  entries: ContestEntry[];
+  currentUser: User;
+  entries: Entry[];
 };
 
-const Dashboard: React.FC<RouteComponentProps<Props>> = ({
-  currentUser,
-  comps,
-  entries,
-}) => {
+const Dashboard: React.FC<RouteComponentProps<Props>> = ({ currentUser }) => {
   return (
     <div className={"p-6"}>
       <CreateEntry currentUser={currentUser} />
-      <CompetitionList path="/" comps={comps} entries={entries} />
+      <EntryFeed currentUser={currentUser} />
     </div>
   );
 };

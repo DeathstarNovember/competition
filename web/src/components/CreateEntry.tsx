@@ -1,9 +1,9 @@
 import React from "react";
 import gql from "graphql-tag";
-import { useQuery, useMutation } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import useForm from "react-hook-form";
-import { Competitor } from "../reducer/initialState";
-import { RouteComponentProps, navigate } from "@reach/router";
+import { User } from "../types";
+import { RouteComponentProps } from "@reach/router";
 import { parse, format, set } from "date-fns";
 
 const CREATE_ENTRY = gql`
@@ -35,11 +35,11 @@ const CREATE_ENTRY = gql`
 `;
 
 type Props = {
-  currentUser: Competitor;
+  currentUser: User;
 };
 
 const CreateUser: React.FC<RouteComponentProps<Props>> = ({ currentUser }) => {
-  const [ createUserMutation ] = useMutation(CREATE_ENTRY);
+  const [createUserMutation] = useMutation(CREATE_ENTRY);
 
   const { handleSubmit, register, errors } = useForm();
 
@@ -59,12 +59,12 @@ const CreateUser: React.FC<RouteComponentProps<Props>> = ({ currentUser }) => {
         "MM/dd/yyyy",
         new Date()
       );
-      const completedTime = parse(values.completed_time, 'HH:mm', new Date())
+      const completedTime = parse(values.completed_time, "HH:mm", new Date());
 
       const completedAt = set(completedDate, {
         hours: completedTime.getHours(),
         minutes: completedTime.getMinutes(),
-      })
+      });
 
       const payload = {
         userId: Number(currentUser.id),
@@ -77,17 +77,14 @@ const CreateUser: React.FC<RouteComponentProps<Props>> = ({ currentUser }) => {
       console.warn({ payload });
 
       try {
-
         const result = await createUserMutation({
-          variables: payload
-        })
+          variables: payload,
+        });
 
-        console.warn({ result })
-
+        console.warn({ result });
       } catch (err) {
-        console.warn({ err })
+        console.warn({ err });
       }
-
     } else {
       console.error("No current user", currentUser);
     }

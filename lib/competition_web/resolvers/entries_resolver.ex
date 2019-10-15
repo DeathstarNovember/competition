@@ -1,7 +1,7 @@
 defmodule CompetitionWeb.Resolvers.EntriesResolver do
   alias Competition.Entries
 
-  def list_Entries(_parent, _args, _resolutions) do
+  def list_entries(_parent, _args, _resolutions) do
     {:ok, Entries.list_entries()}
   end
 
