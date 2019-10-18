@@ -8,6 +8,7 @@ defmodule Competition.Repo.Migrations.CreateEntries do
       add :stroke_rate, :integer
       add :completed_at, :naive_datetime
       add :user_id, references(:users, on_delete: :nothing)
+      add :user_weight, :float
 
       timestamps()
     end

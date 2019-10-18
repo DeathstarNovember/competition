@@ -11,6 +11,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :distance, :integer
     field :time, :integer
     field :stroke_rate, :integer
+    field :user_weight, :float
     field :completed_at, :naive_datetime
   end
 
@@ -29,6 +30,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:stroke_rate, non_null(:integer))
       arg(:completed_at, non_null(:naive_datetime))
       arg(:user_id, non_null(:integer)) #???
+      arg(:user_weight, non_null(:float)) #???
 
       resolve(&Resolvers.EntriesResolver.create_entry/3)
     end

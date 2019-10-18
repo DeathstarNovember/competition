@@ -2,10 +2,12 @@ export type User = {
   id: number;
   firstName: string;
   lastName: string;
+  currentWeight: number;
 };
 
 export type Entry = {
   user: User;
+  userWeight: number;
   date: Date;
   distance: number;
   time: number;

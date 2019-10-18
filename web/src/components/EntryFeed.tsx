@@ -1,25 +1,13 @@
 import React, { useState } from "react";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { User, Entry } from "../types";
 import EntryPreview from "./EntryPreview";
-
-const LIST_ENTRIES = gql`
-  {
-    listEntries {
-      id
-      user {
-        id
-        firstName
-        lastName
-      }
-      distance
-      time
-      strokeRate
-      completedAt
-    }
-  }
-`;
+import {
+  getEntryGroupAvgPowerOutput,
+  getEntryGroupTotalPowerProduced,
+  getEntryGroupAvgPace,
+} from "../util";
+import { LIST_ENTRIES } from "../util";
 
 type EntryFeedProps = {
   currentUser?: User;
@@ -61,6 +49,17 @@ const EntryFeed: React.FC<EntryFeedProps> = ({ currentUser }) => {
     : undefined;
   const entryList =
     displayOption === DisplayOptions.Personal ? myEntries : publicEntries;
+  const groupEntries = () => {
+    const groupedEntries: Entry[][] = [];
+    entryList
+      .map(e => e.user.id)
+      .filter((v, i, a) => a.indexOf(v) === i)
+      .forEach(userId =>
+        groupedEntries.push(entryList.filter(e => e.user.id === userId))
+      );
+    return groupedEntries;
+  };
+  const groupedEntries = groupEntries();
   const changeDisplayOption = (option: DisplayOptions) => {
     setDisplayOption(option);
   };
@@ -68,32 +67,88 @@ const EntryFeed: React.FC<EntryFeedProps> = ({ currentUser }) => {
     <div className={"max-w-md mx-auto p-6"}>
       <div className="w-full max-w-md">
         {displayOption !== DisplayOptions.Personal ? (
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={() => changeDisplayOption(DisplayOptions.Personal)}
-          >
-            See Personal Feed
-          </button>
+          <div>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={() => changeDisplayOption(DisplayOptions.Personal)}
+            >
+              See Personal Feed
+            </button>
+            <div className="p-6 bg-white rounded-lg shadow-xl">
+              {groupedEntries.map((entryGroup, entryGroupId) => (
+                <div key={`entryGroup${entryGroupId}`} className="mb-16">
+                  <div className="ml-2 text-xl font-bold">
+                    {entryGroup
+                      .map(e => `${e.user.firstName} ${e.user.lastName[0]}.`)
+                      .filter((v, i, a) => a.indexOf(v) === i)
+                      .join(", ")}
+                  </div>
+                  <div className="flex justify-around pb-4 ml-2 bg-blue-700 rounded-lg p-2 text-white">
+                    <div className="flex-column">
+                      <div className="font-bold">Avg Spd</div>
+                      <div className="font-bold">{`${getEntryGroupAvgPace(
+                        entryGroup
+                      )}m/s`}</div>
+                    </div>
+                    <div className="flex-column">
+                      <div className="font-bold">Avg Pwr</div>
+                      <div className="font-bold">{`${getEntryGroupAvgPowerOutput(
+                        entryGroup
+                      )}W`}</div>
+                    </div>
+                    <div className="flex-column">
+                      <div className="font-bold">Total Pwr</div>
+                      <div className="font-bold">{`${getEntryGroupTotalPowerProduced(
+                        entryGroup
+                      )}J`}</div>
+                    </div>
+                  </div>
+                  {entryGroup.map((entry: Entry, entryId: number) => (
+                    <EntryPreview
+                      key={`${entry.user.id}${entryId}`}
+                      entry={entry}
+                      entryId={entryId}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         ) : null}
         {displayOption !== DisplayOptions.Public && currentUser ? (
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={() => changeDisplayOption(DisplayOptions.Public)}
-          >
-            See Public Feed
-          </button>
+          <div>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-4 rounded focus:outline-none focus:shadow-outline"
+              type="button"
+              onClick={() => changeDisplayOption(DisplayOptions.Public)}
+            >
+              See Public Feed
+            </button>
+            <div className="p-6 bg-white rounded-lg shadow-xl">
+              {groupedEntries.map((entryGroup, entryGroupId) => (
+                <div>
+                  <div className="pb-4 ml-2">
+                    <h3 className="font-bold ">Your Log</h3>
+                    <div>{`avg power ${getEntryGroupAvgPowerOutput(
+                      entryGroup
+                    )}W`}</div>
+                    <div>{`total power ${getEntryGroupTotalPowerProduced(
+                      entryGroup
+                    )}J`}</div>
+                  </div>
+                  {entryGroup.map((entry: Entry, entryId: number) => (
+                    <EntryPreview
+                      key={`${entry.user.id}${entryId}`}
+                      entry={entry}
+                      entryId={entryId}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
         ) : null}
-        <div className="p-6 bg-white rounded-lg shadow-xl">
-          {entryList.map((entry: Entry, entryId: number) => (
-            <EntryPreview
-              key={`${entry.user.id}${entryId}`}
-              entry={entry}
-              entryId={entryId}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );

@@ -9,10 +9,10 @@ defmodule CompetitionWeb.Schema.AccountTypes do
     field :id, :id
     field :first_name, :string
     field :last_name, :string
+    field :current_weight, :float
     field :dob, :naive_datetime
     field :username, :string
     field :email, :string
-    field :password_hash, :string
     field :war_cry, :string
     field :entries, list_of(:entry) do
       resolve(
@@ -38,7 +38,7 @@ defmodule CompetitionWeb.Schema.AccountTypes do
       arg(:dob, non_null(:naive_datetime))
       arg(:username, non_null(:string))
       arg(:email, non_null(:string))
-      arg(:password_hash, non_null(:string))
+      arg(:current_weight, non_null(:float))
       arg(:war_cry, non_null(:string))
 
       resolve(&Resolvers.AccountResolver.create_user/3)

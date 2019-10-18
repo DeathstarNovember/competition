@@ -1,19 +1,32 @@
 import React, { useEffect } from "react";
-import ApolloClient from "apollo-boost";
+import { ApolloClient } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { HttpLink } from "apollo-link-http";
+import { onError } from "apollo-link-error";
+import { ApolloLink } from "apollo-link";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ThemeProvider } from "styled-components";
 import { theme } from "./ui";
-// import UserList from './components/UserList'
 import Login from "./components/Login";
-// import './App.css'
-// import { Box } from './ui'
 import { Router, navigate } from "@reach/router";
 
 import { useLocalStorage } from "./hooks";
 import Dashboard from "./components/Dashboard";
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000",
+  link: ApolloLink.from([
+    onError(({ graphQLErrors, networkError }) => {
+      if (graphQLErrors)
+        graphQLErrors.forEach(({ message, locations, path }) =>
+          console.log(
+            `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+          )
+        );
+      if (networkError) console.log(`[Network error]: ${networkError}`);
+    }),
+    new HttpLink({ uri: "http://localhost:4000", credentials: "same-origin" }),
+  ]),
+  cache: new InMemoryCache(),
 });
 
 type AppBarProps = {

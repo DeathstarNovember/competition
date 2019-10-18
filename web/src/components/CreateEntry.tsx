@@ -1,58 +1,38 @@
 import React from "react";
-import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import useForm from "react-hook-form";
-import { User } from "../types";
+import { User, Entry } from "../types";
 import { RouteComponentProps } from "@reach/router";
 import { parse, format, set } from "date-fns";
-
-const CREATE_ENTRY = gql`
-  mutation CreateEntry(
-    $userId: Int!
-    $time: Int!
-    $distance: Int!
-    $strokeRate: Int!
-    $completedAt: NaiveDateTime!
-  ) {
-    createEntry(
-      userId: $userId
-      time: $time
-      distance: $distance
-      strokeRate: $strokeRate
-      completedAt: $completedAt
-    ) {
-      id
-      user {
-        id
-        firstName
-        lastName
-      }
-      time
-      distance
-      strokeRate
-    }
-  }
-`;
+import { LIST_ENTRIES, CREATE_ENTRY } from "../util";
 
 type Props = {
   currentUser: User;
 };
 
 const CreateUser: React.FC<RouteComponentProps<Props>> = ({ currentUser }) => {
-  const [createUserMutation] = useMutation(CREATE_ENTRY);
+  const [createUserMutation] = useMutation(CREATE_ENTRY, {
+    update(cache, { data: { createUserMutation } }) {
+      const entries: Entry[] = cache.readQuery({ query: LIST_ENTRIES }) || [];
+      cache.writeQuery({
+        query: LIST_ENTRIES,
+        data: { listEntries: entries.concat([createUserMutation]) },
+      });
+    },
+  });
 
   const { handleSubmit, register, errors } = useForm();
 
-  console.warn({});
+  console.warn({ currentUser });
 
   const onSubmit = async (values: any) => {
     if (currentUser) {
       console.warn({ values });
 
       const time =
-        values.duration_h * 60 * 60 +
-        values.duration_m * 60 +
-        values.duration_s;
+        Number(values.duration_h) * 60 * 60 +
+        Number(values.duration_m) * 60 +
+        Number(values.duration_s);
 
       const completedDate = parse(
         values.completed_date,
@@ -66,12 +46,15 @@ const CreateUser: React.FC<RouteComponentProps<Props>> = ({ currentUser }) => {
         minutes: completedTime.getMinutes(),
       });
 
+      const userWeight = currentUser.currentWeight;
+
       const payload = {
         userId: Number(currentUser.id),
         time: Number(time),
         distance: Number(values.distance),
         strokeRate: Number(values.strokeRate),
         completedAt: format(completedAt, "yyyy-MM-dd HH:mm:ss"),
+        userWeight,
       };
 
       console.warn({ payload });

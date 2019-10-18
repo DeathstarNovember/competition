@@ -7,6 +7,7 @@ defmodule Competition.Entries.Entry do
     field :distance, :integer
     field :time, :integer
     field :stroke_rate, :integer
+    field :user_weight, :float
     field :completed_at, :naive_datetime
     belongs_to :user, User
 
@@ -14,7 +15,7 @@ defmodule Competition.Entries.Entry do
   end
 
   @doc false
-  @required_fields ~w(distance time stroke_rate completed_at user_id)a
+  @required_fields ~w(distance time stroke_rate completed_at user_id user_weight)a
   @optional_fields ~w()a
   def changeset(entries, attrs) do
     entries
