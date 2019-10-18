@@ -1,13 +1,12 @@
 import React from "react";
 import EntryPreview from "./EntryPreview";
 import { Entry } from "../types";
-import StatSummary from "./StatSummary";
 
-type UserEntryFeedProps = {
+type PublicEntryFeedProps = {
   entries: Entry[];
 };
 
-const UserEntryFeed: React.FC<UserEntryFeedProps> = ({ entries }) => {
+const PublicEntryFeed: React.FC<PublicEntryFeedProps> = ({ entries }) => {
   return (
     <div className="mb-16">
       {entries.map((entry: Entry, entryId: number) => (
@@ -21,4 +20,4 @@ const UserEntryFeed: React.FC<UserEntryFeedProps> = ({ entries }) => {
   );
 };
 
-export default UserEntryFeed;
+export default PublicEntryFeed;

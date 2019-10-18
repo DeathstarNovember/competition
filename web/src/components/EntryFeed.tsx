@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { User, Entry } from "../types";
 import UserEntryFeed from "./UserEntryFeed";
+import PublicEntryFeed from "./PublicEntryFeed";
 import { LIST_ENTRIES } from "../util";
 
 type EntryFeedProps = {
@@ -37,8 +38,10 @@ const EntryFeed: React.FC<EntryFeedProps> = ({ currentUser }) => {
       </div>
     );
   }
-
-  const allEntries: Entry[] = data.listEntries;
+  //sort by lastName, then firstName, then completedAt
+  const allEntries: Entry[] = data.listEntries.sort((a: Entry, b: Entry) =>
+    a.completedAt < b.completedAt ? 1 : -1
+  );
   const myEntries: Entry[] = currentUser
     ? data.listEntries.filter((e: Entry) => e.user.id === currentUser.id)
     : undefined;
@@ -84,14 +87,21 @@ const EntryFeed: React.FC<EntryFeedProps> = ({ currentUser }) => {
             ) : null}
           </div>
         </div>
-        <div className="p-6 bg-white rounded-lg shadow-xl">
-          {groupedEntries.map((entryGroup, entryGroupId) => (
-            <UserEntryFeed
-              key={`${entryGroupId}${displayOption}`}
-              entries={entryGroup}
-            />
-          ))}
-        </div>
+        {displayOption === DisplayOptions.Personal ? (
+          <div className="p-6 bg-white rounded-lg shadow-xl">
+            {groupedEntries.map((entryGroup, entryGroupId) => (
+              <UserEntryFeed
+                key={`${entryGroupId}${displayOption}`}
+                entries={entryGroup}
+              />
+            ))}
+          </div>
+        ) : null}
+        {displayOption === DisplayOptions.Public ? (
+          <div className="p-6 bg-white rounded-lg shadow-xl">
+            <PublicEntryFeed entries={allEntries} />
+          </div>
+        ) : null}
       </div>
     </div>
   );

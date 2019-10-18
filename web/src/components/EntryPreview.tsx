@@ -23,6 +23,7 @@ const EntryPreview: React.FC<EntryProps> = ({ entry, entryId }) => (
     className="p-2 border-b last:border-b-0 border-color-gray-700
           hover:bg-gray-200"
   >
+    <div>{`${entry.user.firstName} ${entry.user.lastName[0]}.`}</div>
     <div className="flex justify-between">
       <div className="flex-column flex-1">
         <div className="flex-1 italic text-sm">
