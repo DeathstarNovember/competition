@@ -20,6 +20,10 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :list_entries, list_of(:entry) do
       resolve(&Resolvers.EntriesResolver.list_entries/3)
     end
+    @desc "Get all entries for a single user"
+    field :list_user_entries, list_of(:entry) do
+      resolve(&Resolvers.EntriesResolver.list_user_entries/3)
+    end
   end
 
   object :entry_mutations do

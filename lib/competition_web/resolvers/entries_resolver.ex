@@ -5,6 +5,17 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
     {:ok, Entries.list_entries()}
   end
 
+  def list_user_entries(_parent, args, _resolutions) do
+    args[:userId]
+    |> Entries.list_user_entries()
+    |> case do
+      {:ok, entries} ->
+        {:ok, entries}
+      {:error, error} ->
+        {:error, error}
+    end
+  end
+
   def create_entry(_parent, args, _resolutions) do
     args
     |> Entries.create_entry()

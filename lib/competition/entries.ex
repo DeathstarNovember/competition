@@ -15,6 +15,11 @@ defmodule Competition.Entries do
     Repo.all(Entry)
   end
 
+  def list_user_entries(userId) do 
+    query = from( e in Entry, where: e.user_id == ^userId)
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single entry.
   Raises `Ecto.NoResultsError` if the Entry does not exist.
