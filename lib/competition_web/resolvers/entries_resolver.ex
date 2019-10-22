@@ -4,13 +4,12 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
   def list_entries(_parent, _args, _resolutions) do
     {:ok, Entries.list_entries()}
   end
-
-  def list_user_entries(_parent, args, _resolutions) do
-    args[:userId]
-    |> Entries.list_user_entries()
+  def get_entry(_parent, args, _resolutions) do
+    args[:id]
+    |> Entries.get_entry!()
     |> case do
-      {:ok, entries} ->
-        {:ok, entries}
+      {:ok, entry} ->
+        {:ok, entry}
       {:error, error} ->
         {:error, error}
     end
@@ -22,10 +21,15 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
     |> case do
       {:ok, entry} ->
         {:ok, entry}
-
       {:error, changeset} ->
         {:error, extract_error_msg(changeset)}
     end
+  end
+
+  def delete_entry(_parent, args, _resolutions) do
+    args[:id]
+    |> Entries.delete_entry()
+    {:ok, id}
   end
 
   defp extract_error_msg(changeset) do

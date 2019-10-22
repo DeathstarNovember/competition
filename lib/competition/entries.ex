@@ -3,6 +3,7 @@ defmodule Competition.Entries do
   The Entries context.
   """
 
+  require Logger
   import Ecto.Query, warn: false
   alias Competition.Repo
 
@@ -13,11 +14,6 @@ defmodule Competition.Entries do
   """
   def list_entries do
     Repo.all(Entry)
-  end
-
-  def list_user_entries(userId) do 
-    query = from( e in Entry, where: e.user_id == ^userId)
-    Repo.all(query)
   end
 
   @doc """
@@ -47,8 +43,13 @@ defmodule Competition.Entries do
   @doc """
   Deletes an Entry.
   """
-  def delete_entry(%Entry{} = entry) do
-    Repo.delete(entry)
+  def delete_entry(id) do
+    test = get_entry!(id)
+    |> Repo.delete()
+
+    Logger.info "test #{inspect test}"
+
+    test
   end
 
   @doc """

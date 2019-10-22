@@ -20,9 +20,9 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :list_entries, list_of(:entry) do
       resolve(&Resolvers.EntriesResolver.list_entries/3)
     end
-    @desc "Get all entries for a single user"
-    field :list_user_entries, list_of(:entry) do
-      resolve(&Resolvers.EntriesResolver.list_user_entries/3)
+    @desc "Get a single entry"
+    field :get_entry, :entry do
+      resolve(&Resolvers.EntriesResolver.get_entry/3)
     end
   end
 
@@ -33,10 +33,16 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:distance, non_null(:integer))
       arg(:stroke_rate, non_null(:integer))
       arg(:completed_at, non_null(:naive_datetime))
-      arg(:user_id, non_null(:integer)) #???
-      arg(:user_weight, non_null(:float)) #???
+      arg(:user_id, non_null(:id)) 
+      arg(:user_weight, non_null(:float)) 
 
       resolve(&Resolvers.EntriesResolver.create_entry/3)
+    end
+    @desc "Delete an entry"
+    field :delete_entry, :id do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.EntriesResolver.delete_entry/3)
     end
   end
 
