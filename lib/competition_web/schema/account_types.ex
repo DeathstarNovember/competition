@@ -43,6 +43,19 @@ defmodule CompetitionWeb.Schema.AccountTypes do
 
       resolve(&Resolvers.AccountResolver.create_user/3)
     end
+    @desc "Update a user"
+    field :update_user, :user do
+      arg(:id, non_null(:id))
+      arg(:first_name, non_null(:string))
+      arg(:last_name, non_null(:string))
+      arg(:dob, non_null(:naive_datetime))
+      arg(:username, non_null(:string))
+      arg(:email, non_null(:string))
+      arg(:current_weight, non_null(:float))
+      arg(:war_cry, non_null(:string))
+
+      resolve(&Resolvers.AccountResolver.update_user/3)
+    end
   end
 
   object :account_subscriptions do

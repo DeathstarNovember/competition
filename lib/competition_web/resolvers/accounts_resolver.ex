@@ -11,7 +11,17 @@ defmodule CompetitionWeb.Resolvers.AccountResolver do
     |> case do
       {:ok, user} ->
         {:ok, user}
+      {:error, changeset} ->
+        {:error, extract_error_msg(changeset)}
+    end
+  end
 
+  def update_user(_parent, args, _resolutions) do
+    Accounts.get_user!(args[:id])
+    |> Accounts.update_user(args)
+    |> case do
+      {:ok, user} ->
+        {:ok, user}
       {:error, changeset} ->
         {:error, extract_error_msg(changeset)}
     end
