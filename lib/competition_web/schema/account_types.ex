@@ -56,6 +56,12 @@ defmodule CompetitionWeb.Schema.AccountTypes do
 
       resolve(&Resolvers.AccountResolver.update_user/3)
     end
+    @desc "Delete a User"
+    field :delete_user, :id do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.AccountsResolver.delete_user/3)
+    end
   end
 
   object :account_subscriptions do

@@ -27,6 +27,12 @@ defmodule CompetitionWeb.Resolvers.AccountResolver do
     end
   end
 
+  def delete_user(_parent, args, _resolutions) do
+    args[:id]
+    |> Accounts.delete_user()
+    {:ok, :id}
+  end
+
   defp extract_error_msg(changeset) do
     changeset.errors
     |> Enum.map(fn {field, {error, _details}} ->
