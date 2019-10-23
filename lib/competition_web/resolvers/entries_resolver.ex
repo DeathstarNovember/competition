@@ -26,10 +26,21 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
     end
   end
 
+  def update_entry(_parent, args, _resolutions) do
+    Entries.get_entry!(args[:id])
+    |> Entries.update_entry(args)
+    |> case do
+      {:ok, entry} ->
+        {:ok, entry}
+      {:error, changeset} ->
+        {:error, extract_error_msg(changeset)}
+    end
+  end
+
   def delete_entry(_parent, args, _resolutions) do
     args[:id]
     |> Entries.delete_entry()
-    {:ok, id}
+    {:ok, :id}
   end
 
   defp extract_error_msg(changeset) do

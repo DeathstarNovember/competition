@@ -38,6 +38,18 @@ defmodule CompetitionWeb.Schema.EntryTypes do
 
       resolve(&Resolvers.EntriesResolver.create_entry/3)
     end
+    @desc "Update an entry"
+    field :update_entry, :entry do
+      arg(:id, non_null(:id))
+      arg(:time, non_null(:integer))
+      arg(:distance, non_null(:integer))
+      arg(:stroke_rate, non_null(:integer))
+      arg(:completed_at, non_null(:naive_datetime))
+      arg(:user_id, non_null(:id)) 
+      arg(:user_weight, non_null(:float)) 
+
+      resolve(&Resolvers.EntriesResolver.update_entry/3)
+    end
     @desc "Delete an entry"
     field :delete_entry, :id do
       arg(:id, non_null(:id))

@@ -44,12 +44,8 @@ defmodule Competition.Entries do
   Deletes an Entry.
   """
   def delete_entry(id) do
-    test = get_entry!(id)
+    get_entry!(id)
     |> Repo.delete()
-
-    Logger.info "test #{inspect test}"
-
-    test
   end
 
   @doc """
