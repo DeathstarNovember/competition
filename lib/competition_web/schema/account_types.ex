@@ -9,7 +9,9 @@ defmodule CompetitionWeb.Schema.AccountTypes do
     field :id, :id
     field :first_name, :string
     field :last_name, :string
+    field :bio_sex, :string
     field :current_weight, :float
+    field :current_height, :integer
     field :dob, :naive_datetime
     field :username, :string
     field :email, :string
@@ -38,7 +40,9 @@ defmodule CompetitionWeb.Schema.AccountTypes do
       arg(:dob, non_null(:naive_datetime))
       arg(:username, non_null(:string))
       arg(:email, non_null(:string))
+      arg(:bio_sex, non_null(:string))
       arg(:current_weight, non_null(:float))
+      arg(:current_height, non_null(:integer))
       arg(:war_cry, non_null(:string))
 
       resolve(&Resolvers.AccountResolver.create_user/3)
@@ -51,7 +55,9 @@ defmodule CompetitionWeb.Schema.AccountTypes do
       arg(:dob, non_null(:naive_datetime))
       arg(:username, non_null(:string))
       arg(:email, non_null(:string))
+      arg(:bio_sex, non_null(:string))
       arg(:current_weight, non_null(:float))
+      arg(:current_height, non_null(:integer))
       arg(:war_cry, non_null(:string))
 
       resolve(&Resolvers.AccountResolver.update_user/3)

@@ -9,6 +9,9 @@ defmodule Competition.Repo.Migrations.CreateEntries do
       add :completed_at, :naive_datetime
       add :user_id, references(:users, on_delete: :nothing)
       add :user_weight, :float
+      add :user_height, :integer
+      add :max_hr, :integer
+      add :avg_hr, :integer
 
       timestamps()
     end

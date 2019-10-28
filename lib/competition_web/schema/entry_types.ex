@@ -12,7 +12,11 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :time, :integer
     field :stroke_rate, :integer
     field :user_weight, :float
+    field :user_height, :integer
     field :completed_at, :naive_datetime
+    field :max_hr, :integer
+    field :avg_hr, :integer
+    
   end
 
   object :entry_queries do
@@ -34,7 +38,10 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:stroke_rate, non_null(:integer))
       arg(:completed_at, non_null(:naive_datetime))
       arg(:user_id, non_null(:id)) 
-      arg(:user_weight, non_null(:float)) 
+      arg(:user_weight, non_null(:float))
+      arg(:user_height, non_null(:integer))
+      arg(:max_hr, :integer)
+      arg(:avg_hr, :integer) 
 
       resolve(&Resolvers.EntriesResolver.create_entry/3)
     end
@@ -47,6 +54,9 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:completed_at, non_null(:naive_datetime))
       arg(:user_id, non_null(:id)) 
       arg(:user_weight, non_null(:float)) 
+      arg(:user_height, non_null(:integer)) 
+      arg(:max_hr, :integer)
+      arg(:avg_hr, :integer)
 
       resolve(&Resolvers.EntriesResolver.update_entry/3)
     end
