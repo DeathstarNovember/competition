@@ -30,6 +30,11 @@ defmodule CompetitionWeb.Schema.AccountTypes do
     field :list_users, list_of(:user) do
       resolve(&Resolvers.AccountResolver.list_users/3)
     end
+    
+    @desc "Get a user"
+    field :get_user, :user do
+      resolve(&Resolvers.AccountResolver.get_user/3)
+    end
   end
 
   object :account_mutations do

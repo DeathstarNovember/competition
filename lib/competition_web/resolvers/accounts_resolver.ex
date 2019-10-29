@@ -1,6 +1,10 @@
 defmodule CompetitionWeb.Resolvers.AccountResolver do
   alias Competition.Accounts
 
+  def get_user(_parent, args, _resolutions) do
+    {:ok, Accounts.get_user!(args)}
+  end
+
   def list_users(_parent, _args, _resolutions) do
     {:ok, Accounts.list_users()}
   end
