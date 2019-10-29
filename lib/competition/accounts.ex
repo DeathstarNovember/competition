@@ -19,8 +19,9 @@ defmodule Competition.Accounts do
   Gets a single user.
   Raises `Ecto.NoResultsError` if the User does not exist.
   """
-  def get_user!(id), do: Repo.get!(User, id)
-
+  def get_user!(id) do
+    Repo.get!(User, id)
+  end
   @doc """
   Creates a user.
   """

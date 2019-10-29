@@ -33,7 +33,6 @@ defmodule CompetitionWeb.Schema.AccountTypes do
 
     @desc "Get a user"
     field :get_user, :user do
-      arg(:id, non_null(:id))
       resolve(&Resolvers.AccountResolver.get_user/3)
     end
   end
