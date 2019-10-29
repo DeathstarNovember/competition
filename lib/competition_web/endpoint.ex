@@ -36,7 +36,7 @@ defmodule CompetitionWeb.Endpoint do
   # plug Plug.MethodOverride
   # plug Plug.Head
   # plug CORSPlug, origin: ["https://competitor-prod.herokuapp.com", "http://localhost:4000", "http://localhost:3000"]
-  # plug CORSPlug, origin: *
+  plug CORSPlug, origin: ~r/.*/
   # plug CORSPlug, send_preflight_response?: false
 
   # The session will be stored in the cookie and signed,
