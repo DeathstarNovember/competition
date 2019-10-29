@@ -22,6 +22,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# config :cors_plug,
+#   origin: ["http://example.com"],
+#   max_age: 50000,
+#   methods: ["GET", "POST"]
+
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
