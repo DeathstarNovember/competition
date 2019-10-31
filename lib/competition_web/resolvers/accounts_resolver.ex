@@ -1,4 +1,4 @@
-defmodule CompetitionWeb.Resolvers.AccountResolver do
+defmodule CompetitionWeb.Resolvers.AccountsResolver do
   alias Competition.Accounts
 
   def get_user(_parent, args, _resolutions) do

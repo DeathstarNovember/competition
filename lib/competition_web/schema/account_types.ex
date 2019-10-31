@@ -28,13 +28,13 @@ defmodule CompetitionWeb.Schema.AccountTypes do
   object :account_queries do
     @desc "Get all users"
     field :list_users, list_of(:user) do
-      resolve(&Resolvers.AccountResolver.list_users/3)
+      resolve(&Resolvers.AccountsResolver.list_users/3)
     end
 
     @desc "Get a user"
     field :get_user, :user do
       arg(:id, non_null(:id))
-      resolve(&Resolvers.AccountResolver.get_user/3)
+      resolve(&Resolvers.AccountsResolver.get_user/3)
     end
   end
 
@@ -51,7 +51,7 @@ defmodule CompetitionWeb.Schema.AccountTypes do
       arg(:current_height, non_null(:integer))
       arg(:war_cry, non_null(:string))
 
-      resolve(&Resolvers.AccountResolver.create_user/3)
+      resolve(&Resolvers.AccountsResolver.create_user/3)
     end
     @desc "Update a user"
     field :update_user, :user do
@@ -66,7 +66,7 @@ defmodule CompetitionWeb.Schema.AccountTypes do
       arg(:current_height, non_null(:integer))
       arg(:war_cry, non_null(:string))
 
-      resolve(&Resolvers.AccountResolver.update_user/3)
+      resolve(&Resolvers.AccountsResolver.update_user/3)
     end
     @desc "Delete a User"
     field :delete_user, :id do
