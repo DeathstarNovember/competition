@@ -4,10 +4,24 @@ defmodule CompetitionWeb.Schema.EntryTypes do
 
   alias CompetitionWeb.Resolvers
 
+  @desc "Like object"
+  object :like do
+    field :id, :id
+    field :user_id, :id
+    field :entry_id, :id
+  end 
+
   @desc "Entry object"
   object :entry do
     field :id, :id
     field :user, :user, resolve: assoc(:user)
+    field :likes, list_of(:like) do
+      resolve(
+        assoc(:likes, fn likes_query, _args, _context ->
+          likes_query 
+        end)
+      )
+    end
     field :distance, :integer
     field :time, :integer
     field :stroke_rate, :integer
@@ -16,8 +30,9 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :completed_at, :naive_datetime
     field :max_hr, :integer
     field :avg_hr, :integer
-    
   end
+
+  
 
   object :entry_queries do
     @desc "Get all entries"
@@ -28,6 +43,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :get_entry, :entry do
       resolve(&Resolvers.EntriesResolver.get_entry/3)
     end
+
   end
 
   object :entry_mutations do
@@ -65,6 +81,19 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:id, non_null(:id))
 
       resolve(&Resolvers.EntriesResolver.delete_entry/3)
+    end
+    @desc "Delete a like"
+    field :unlike_entry, :id do
+      arg(:id, non_null(:id))
+
+      resolve(&Resolvers.EntriesResolver.unlike_entry/3)
+    end
+    @desc "Create a Like"
+    field :like_entry, :like do
+      arg(:user_id, non_null(:id))
+      arg(:entry_id, non_null(:id))
+
+      resolve(&Resolvers.EntriesResolver.like_entry/3)
     end
   end
 

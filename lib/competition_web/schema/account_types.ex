@@ -23,6 +23,13 @@ defmodule CompetitionWeb.Schema.AccountTypes do
         end)
       )
     end
+    field :likes, list_of(:like) do
+      resolve(
+        assoc(:likes, fn likes_query, _args, _context ->
+          likes_query 
+        end)
+      )
+    end
   end
 
   object :account_queries do

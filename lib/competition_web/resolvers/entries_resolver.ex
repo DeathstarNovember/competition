@@ -26,6 +26,17 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
     end
   end
 
+  def like_entry(_parent, args, _resolutions) do
+    args
+    |> Entries.like_entry()
+    |> case do
+      {:ok, like} ->
+        {:ok, like}
+      {:error, changeset} ->
+        {:error, extract_error_msg(changeset)}
+    end
+  end
+
   def update_entry(_parent, args, _resolutions) do
     Entries.get_entry!(args[:id])
     |> Entries.update_entry(args)
@@ -40,6 +51,12 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
   def delete_entry(_parent, args, _resolutions) do
     args[:id]
     |> Entries.delete_entry()
+    {:ok, :id}
+  end
+  
+  def unlike_entry(_parent, args, _resolutions) do
+    args[:id]
+    |> Entries.unlike_entry()
     {:ok, :id}
   end
 

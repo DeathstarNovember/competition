@@ -8,6 +8,7 @@ defmodule Competition.Entries do
   alias Competition.Repo
 
   alias Competition.Entries.Entry
+  alias Competition.Entries.Like
 
   @doc """
   Returns the list of entries.
@@ -21,6 +22,12 @@ defmodule Competition.Entries do
   Raises `Ecto.NoResultsError` if the Entry does not exist.
   """
   def get_entry!(id), do: Repo.get!(Entry, id)
+  
+  @doc """
+  Gets a single like.
+  Raises `Ecto.NoResultsError` if the Entry does not exist.
+  """
+  def get_like!(id), do: Repo.get!(Like, id)
 
   @doc """
   Creates an entry.
@@ -29,6 +36,25 @@ defmodule Competition.Entries do
     %Entry{}
     |> Entry.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Likes an entry.
+  """
+
+  def like_entry(attrs \\ %{}) do
+    %Like{}
+    |> Like.changeset(attrs)
+    |> Repo.insert()
+  end
+  
+  @doc """
+  Removes an entry_like.
+  """
+
+  def unlike_entry(id) do
+    get_like!(id)
+    |> Repo.delete()
   end
 
   @doc """
