@@ -3,6 +3,16 @@ defmodule CompetitionWeb.Schema.EntryTypes do
   use Absinthe.Ecto, repo: Competition.Repo
 
   alias CompetitionWeb.Resolvers
+  @desc "Comment object"
+  object :comment do
+    field :id, :id
+    field :body, :string
+    field :visibility, :integer
+    field :user, :user, resolve: assoc(:user)
+    field :entry, :entry, resolve: assoc(:entry)
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
+  end
 
   @desc "Like object"
   object :like do
@@ -18,7 +28,14 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :likes, list_of(:like) do
       resolve(
         assoc(:likes, fn likes_query, _args, _context ->
-          likes_query 
+          likes_query
+        end)
+      )
+    end
+    field :comments, list_of(:comment) do
+      resolve(
+        assoc(:comments, fn comments_query, _args, _context ->
+          comments_query 
         end)
       )
     end
@@ -94,6 +111,28 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:entry_id, non_null(:id))
 
       resolve(&Resolvers.EntriesResolver.like_entry/3)
+    end
+    @desc "Create a Comment"
+    field :create_comment, :comment do
+      arg(:user_id, non_null(:id))
+      arg(:entry_id, non_null(:id))
+      arg(:body, non_null(:string))
+      arg(:visibility, :integer)
+
+      resolve(&Resolvers.EntriesResolver.create_comment/3)
+    end
+    @desc "Delete a Comment"
+    field :delete_comment, :id do
+      arg(:id, non_null(:id))
+      resolve(&Resolvers.EntriesResolver.delete_comment/3)
+    end
+    @desc "Update a Comment"
+    field :update_comment, :comment do
+      arg(:id, non_null(:id))
+      arg(:body, non_null(:string)) 
+      arg(:visibility, :integer) 
+
+      resolve(&Resolvers.EntriesResolver.update_comment/3)
     end
   end
 

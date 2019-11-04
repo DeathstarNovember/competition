@@ -2,14 +2,9 @@ defmodule Competition.Entries.Like do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Competition.Accounts.User
-  alias Competition.Entries.Like
-
   schema "likes" do
     field :user_id, :id
     field :entry_id, :id
-    # belongs_to :user, User
-    # belongs_to :like, Like
 
     timestamps()
   end

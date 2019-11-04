@@ -9,6 +9,7 @@ defmodule Competition.Entries do
 
   alias Competition.Entries.Entry
   alias Competition.Entries.Like
+  alias Competition.Entries.Comment
 
   @doc """
   Returns the list of entries.
@@ -28,6 +29,12 @@ defmodule Competition.Entries do
   Raises `Ecto.NoResultsError` if the Entry does not exist.
   """
   def get_like!(id), do: Repo.get!(Like, id)
+  
+  @doc """
+  Gets a single comment.
+  Raises `Ecto.NoResultsError` if the Entry does not exist.
+  """
+  def get_comment!(id), do: Repo.get!(Comment, id)
 
   @doc """
   Creates an entry.
@@ -49,11 +56,30 @@ defmodule Competition.Entries do
   end
   
   @doc """
+  Comments on an entry.
+  """
+
+  def create_comment(attrs \\ %{}) do
+    %Comment{}
+    |> Comment.changeset(attrs)
+    |> Repo.insert()
+  end
+  
+  @doc """
   Removes an entry_like.
   """
 
   def unlike_entry(id) do
     get_like!(id)
+    |> Repo.delete()
+  end
+  
+  @doc """
+  Removes a comment.
+  """
+
+  def delete_comment(id) do
+    get_comment!(id)
     |> Repo.delete()
   end
 
@@ -63,6 +89,15 @@ defmodule Competition.Entries do
   def update_entry(%Entry{} = entry, attrs) do
     entry
     |> Entry.changeset(attrs)
+    |> Repo.update()
+  end
+ 
+  @doc """
+  Updates a comment.
+  """
+  def update_comment(%Comment{} = comment, attrs) do
+    comment
+    |> Comment.changeset(attrs)
     |> Repo.update()
   end
 
@@ -79,5 +114,17 @@ defmodule Competition.Entries do
   """
   def change_entry(%Entry{} = entry) do
     Entry.changeset(entry, %{})
+  end
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking like changes.
+  """
+  def change_like(%Like{} = like) do
+    Like.changeset(like, %{})
+  end
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking comment changes.
+  """
+  def change_comment(%Comment{} = comment) do
+    Comment.changeset(comment, %{})
   end
 end

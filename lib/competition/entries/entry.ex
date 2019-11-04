@@ -3,6 +3,7 @@ defmodule Competition.Entries.Entry do
   import Ecto.Changeset
   alias Competition.Accounts.User
   alias Competition.Entries.Like
+  alias Competition.Entries.Comment
 
   schema "entries" do
     field :distance, :integer
@@ -15,6 +16,7 @@ defmodule Competition.Entries.Entry do
     field :avg_hr, :integer
     belongs_to :user, User
     has_many :likes, Like
+    has_many :comments, Comment
 
     timestamps()
   end

@@ -3,6 +3,7 @@ defmodule Competition.Accounts.User do
   import Ecto.Changeset
   alias Competition.Entries.Entry
   alias Competition.Entries.Like
+  alias Competition.Entries.Comment
 
   schema "users" do
     field :dob, :naive_datetime
@@ -16,6 +17,7 @@ defmodule Competition.Accounts.User do
     field :war_cry, :string
     has_many :entries, Entry
     has_many :likes, Like
+    has_many :comments, Comment
 
     timestamps()
   end
