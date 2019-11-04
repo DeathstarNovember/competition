@@ -3,8 +3,8 @@ defmodule Competition.Repo.Migrations.CreateLikes do
 
   def change do
     create table(:likes) do
-      add :user_id, references(:users, on_delete: :nothing), null: false
-      add :entry_id, references(:entries, on_delete: :nothing), null: false
+      add :user_id, references(:users, on_delete: :delete_all), null: false
+      add :entry_id, references(:entries, on_delete: :delete_all), null: false
 
       timestamps()
     end
