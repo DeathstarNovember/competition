@@ -4,6 +4,7 @@ defmodule Competition.Accounts.User do
   alias Competition.Entries.Entry
   alias Competition.Entries.Like
   alias Competition.Entries.Comment
+  alias Competition.Accounts.FollowLink
 
   schema "users" do
     field :dob, :naive_datetime
@@ -18,6 +19,11 @@ defmodule Competition.Accounts.User do
     has_many :entries, Entry
     has_many :likes, Like
     has_many :comments, Comment
+    has_many :followed_links, FollowLink, foreign_key: :follower_id
+    has_many :follows, through: [:followed_links, :follower]
+
+    has_many :follower_links, FollowLink, foreign_key: :followed_id
+    has_many :followers, through: [:follower_links, :followed]
 
     timestamps()
   end

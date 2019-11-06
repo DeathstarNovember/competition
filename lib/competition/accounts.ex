@@ -7,6 +7,7 @@ defmodule Competition.Accounts do
   alias Competition.Repo
 
   alias Competition.Accounts.User
+  alias Competition.Accounts.FollowLink
 
   @doc """
   Returns the list of users.
@@ -22,12 +23,30 @@ defmodule Competition.Accounts do
   def get_user!(id) do
     Repo.get!(User, id)
   end
+  
+  @doc """
+  Gets a single FollowLink.
+  Raises `Ecto.NoResultsError` if the User does not exist.
+  """
+  def get_follow_link!(id) do
+    Repo.get!(FollowLink, id)
+  end
+
   @doc """
   Creates a user.
   """
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
+    |> Repo.insert()
+  end
+  
+  @doc """
+  Creates a FollowLink.
+  """
+  def create_follow_link(attrs \\ %{}) do
+    %FollowLink{}
+    |> FollowLink.changeset(attrs)
     |> Repo.insert()
   end
 
@@ -45,6 +64,14 @@ defmodule Competition.Accounts do
   """
   def delete_user(id) do
     get_user!(id)
+    |> Repo.delete()
+  end
+  
+  @doc """
+  Deletes a User.
+  """
+  def delete_follow_link(id) do
+    get_follow_link!(id)
     |> Repo.delete()
   end
 
