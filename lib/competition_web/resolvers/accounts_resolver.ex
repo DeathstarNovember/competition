@@ -9,6 +9,11 @@ defmodule CompetitionWeb.Resolvers.AccountsResolver do
     {:ok, Accounts.get_follow_link!(args[:id])}
   end
 
+  def delete_follow_with_ids(_parent, args, _resolutions) do
+    Accounts.delete_follow_link_with_ids(args[:follower_id], args[:followed_id])
+    {:ok, :id}
+  end
+
   def list_users(_parent, _args, _resolutions) do
     {:ok, Accounts.list_users()}
   end

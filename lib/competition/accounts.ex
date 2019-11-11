@@ -31,6 +31,15 @@ defmodule Competition.Accounts do
   def get_follow_link!(id) do
     Repo.get!(FollowLink, id)
   end
+  
+  @doc """
+  Gets a single FollowLink using the Follower and Followed User Ids.
+  Raises `Ecto.NoResultsError` if the User does not exist.
+  """
+  def delete_follow_link_with_ids(follower_id, followed_id) do
+    Repo.get_by(FollowLink, [follower_id: follower_id, followed_id: followed_id])
+    |> Repo.delete()
+  end
 
   @doc """
   Creates a user.

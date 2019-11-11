@@ -57,7 +57,7 @@ defmodule CompetitionWeb.Schema.AccountTypes do
     field :list_users, list_of(:user) do
       resolve(&Resolvers.AccountsResolver.list_users/3)
     end
-
+    
     @desc "Get a user"
     field :get_user, :user do
       arg(:id, non_null(:id))
@@ -113,6 +113,13 @@ defmodule CompetitionWeb.Schema.AccountTypes do
       arg(:id, non_null(:id))
 
       resolve(&Resolvers.AccountsResolver.delete_follow_link/3)
+    end
+    @desc "delete a follow link by user Ids"
+    field :delete_follow_link_with_ids, :id do
+      arg(:follower_id, non_null(:id))
+      arg(:followed_id, non_null(:id))
+
+      resolve(&Resolvers.AccountsResolver.delete_follow_with_ids/3)
     end
   end
 
