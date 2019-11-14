@@ -9,17 +9,6 @@ defmodule CompetitionWeb.Resolvers.ChallengesResolver do
     {:ok, Challenges.get_challenge!(args[:id])}
   end
 
-  def create_challenge(_parent, args, _resolutions) do
-    args
-    |> Challenges.create_challenge()
-    |> case do
-      {:ok, challenge} ->
-        {:ok, challenge}
-      {:error, changeset} ->
-        {:error, extract_error_msg(changeset)}
-    end
-  end
-
   def create_invitation(_parent, args, _resolutions) do
     args
     |> Challenges.create_invitation()
@@ -30,6 +19,32 @@ defmodule CompetitionWeb.Resolvers.ChallengesResolver do
         {:error, extract_error_msg(changeset)}
     end
   end
+
+  def create_challenge(_parent, args, _resolutions) do
+    args
+    |> Challenges.create_challenge()
+    |> case do
+      {:ok, challenge} ->
+        Challenges.create_invitation(
+          %{invitee_id: challenge.moderator_id,
+          challenge_id: challenge.id,
+          status: 0}
+        )
+        Challenges.create_objective(
+          %{
+            objective_type: 0,
+            result_type: 0,
+            value: 0,
+            challenge_id: challenge.id
+          }
+        )
+        {:ok, challenge}
+      {:error, changeset} ->
+        {:error, extract_error_msg(changeset)}
+    end
+  end
+
+  
   
   def create_objective(_parent, args, _resolutions) do
     args
