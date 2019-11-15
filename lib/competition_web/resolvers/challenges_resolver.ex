@@ -28,7 +28,7 @@ defmodule CompetitionWeb.Resolvers.ChallengesResolver do
         Challenges.create_invitation(
           %{invitee_id: challenge.moderator_id,
           challenge_id: challenge.id,
-          status: 0}
+          status: 1}
         )
         Challenges.create_objective(
           %{

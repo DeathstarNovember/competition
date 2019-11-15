@@ -9,6 +9,7 @@ defmodule CompetitionWeb.Schema.ChallengeTypes do
     field :status, :integer
     field :challenge, :challenge, resolve: assoc(:challenge)
     field :invitee, :user, resolve: assoc(:invitee)
+    field :response, :entry, resolve: assoc(:response)
   end
   @desc "Objective object"
   object :objective do
@@ -100,6 +101,7 @@ defmodule CompetitionWeb.Schema.ChallengeTypes do
       arg(:invitee_id, non_null(:id))
       arg(:status, non_null(:integer))
       arg(:challenge_id, non_null(:id))
+      arg(:response_id, :id)
 
       resolve(&Resolvers.ChallengesResolver.update_invitation/3)
     end
