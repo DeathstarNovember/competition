@@ -5,6 +5,10 @@ defmodule CompetitionWeb.Resolvers.EntriesResolver do
     {:ok, Entries.list_entries()}
   end
 
+  def list_achievements(_parent, _args, _resolutions) do
+    {:ok, Entries.list_achievements()}
+  end
+
   def get_entry(_parent, args, _resolutions) do
     args[:id]
     |> Entries.get_entry!()

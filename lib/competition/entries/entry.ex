@@ -4,6 +4,7 @@ defmodule Competition.Entries.Entry do
   alias Competition.Accounts.User
   alias Competition.Entries.Like
   alias Competition.Entries.Comment
+  alias Competition.Entries.Achievement
 
   schema "entries" do
     field :distance, :integer

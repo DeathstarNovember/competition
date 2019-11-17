@@ -6,9 +6,11 @@ defmodule CompetitionWeb.Schema.EntryTypes do
   @desc "AchievementObject"
   object :achievement do
     field :id, :id
-    field :achiecement_type, :integer
+    field :achievement_type, :integer
     field :user, :user, resolve: assoc(:user)
     field :entry, :entry, resolve: assoc(:entry)
+    field :inserted_at, :naive_datetime
+    field :updated_at, :naive_datetime
   end
   @desc "Comment object"
   object :comment do
@@ -77,7 +79,10 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :get_entry, :entry do
       resolve(&Resolvers.EntriesResolver.get_entry/3)
     end
-    
+    @desc "Get all achievements"
+    field :get_achievements,  list_of(:achievement) do
+      resolve(&Resolvers.EntriesResolver.list_achievements/3)
+    end
   end
 
   object :entry_mutations do
@@ -137,6 +142,14 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       arg(:visibility, :integer)
 
       resolve(&Resolvers.EntriesResolver.create_comment/3)
+    end
+    @desc "Create an Achievement" 
+    field :create_achievement, :achievement do
+      arg(:achievement_type, :integer) 
+      arg(:user_id, non_null(:id)) 
+      arg(:entry_id, non_null(:id)) 
+      arg(:inserted_at, :naive_datetime) 
+      arg(:updated_at, :naive_datetime) 
     end
     @desc "Delete a Comment"
     field :delete_comment, :id do

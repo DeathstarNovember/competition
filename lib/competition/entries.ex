@@ -10,12 +10,19 @@ defmodule Competition.Entries do
   alias Competition.Entries.Entry
   alias Competition.Entries.Like
   alias Competition.Entries.Comment
+  alias Competition.Entries.Achievement
 
   @doc """
   Returns the list of entries.
   """
   def list_entries do
     Repo.all(Entry)
+  end
+  @doc """
+  Returns the list of achievements.
+  """
+  def list_achievements do
+    Repo.all(Achievement)
   end
 
   @doc """
