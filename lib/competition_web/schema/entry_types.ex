@@ -3,6 +3,13 @@ defmodule CompetitionWeb.Schema.EntryTypes do
   use Absinthe.Ecto, repo: Competition.Repo
 
   alias CompetitionWeb.Resolvers
+  @desc "AchievementObject"
+  object :achievement do
+    field :id, :id
+    field :achiecement_type, :integer
+    field :user, :user, resolve: assoc(:user)
+    field :entry, :entry, resolve: assoc(:entry)
+  end
   @desc "Comment object"
   object :comment do
     field :id, :id
@@ -39,6 +46,16 @@ defmodule CompetitionWeb.Schema.EntryTypes do
         end)
       )
     end
+    field :invitations, list_of(:invitation) do
+      resolve assoc(:invitations, fn invitations_query, _args, _context ->
+        invitations_query
+      end)
+    end
+    field :achievements, list_of(:achievements) do
+      resolve assoc(:achievements, fn achievements_query, _args, _context -> 
+        achievements_query
+      end)
+    end
     field :distance, :integer
     field :time, :integer
     field :stroke_rate, :integer
@@ -60,7 +77,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     field :get_entry, :entry do
       resolve(&Resolvers.EntriesResolver.get_entry/3)
     end
-
+    
   end
 
   object :entry_mutations do

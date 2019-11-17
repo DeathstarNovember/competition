@@ -4,6 +4,7 @@ defmodule Competition.Accounts.User do
   alias Competition.Entries.Entry
   alias Competition.Entries.Like
   alias Competition.Entries.Comment
+  alias Competition.Entries.Achievement
   alias Competition.Accounts.FollowLink
   alias Competition.Challenges.Challenge
   alias Competition.Challenges.Invitation
@@ -27,6 +28,7 @@ defmodule Competition.Accounts.User do
     has_many :follows, through: [:followed_links, :followed]
     has_many :follower_links, FollowLink, foreign_key: :followed_id
     has_many :followers, through: [:follower_links, :follower]
+    has_many :achievements, Achievement
 
     timestamps()
   end

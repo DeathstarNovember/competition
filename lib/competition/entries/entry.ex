@@ -17,6 +17,7 @@ defmodule Competition.Entries.Entry do
     belongs_to :user, User
     has_many :likes, Like
     has_many :comments, Comment
+    has_many :achievements, Achievement
 
     timestamps()
   end
