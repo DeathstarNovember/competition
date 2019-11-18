@@ -53,11 +53,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
         invitations_query
       end)
     end
-    field :achievements, list_of(:achievements) do
-      resolve assoc(:achievements, fn achievements_query, _args, _context -> 
-        achievements_query
-      end)
-    end
+    field :achievement, :achievement, resolve: assoc(:achievement)
     field :distance, :integer
     field :time, :integer
     field :stroke_rate, :integer
@@ -80,7 +76,7 @@ defmodule CompetitionWeb.Schema.EntryTypes do
       resolve(&Resolvers.EntriesResolver.get_entry/3)
     end
     @desc "Get all achievements"
-    field :get_achievements,  list_of(:achievement) do
+    field :list_achievements,  list_of(:achievement) do
       resolve(&Resolvers.EntriesResolver.list_achievements/3)
     end
   end
@@ -145,11 +141,10 @@ defmodule CompetitionWeb.Schema.EntryTypes do
     end
     @desc "Create an Achievement" 
     field :create_achievement, :achievement do
-      arg(:achievement_type, :integer) 
+      arg(:achievement_type, non_null(:integer)) 
       arg(:user_id, non_null(:id)) 
       arg(:entry_id, non_null(:id)) 
-      arg(:inserted_at, :naive_datetime) 
-      arg(:updated_at, :naive_datetime) 
+      resolve(&Resolvers.EntriesResolver.create_achievement/3)
     end
     @desc "Delete a Comment"
     field :delete_comment, :id do

@@ -51,6 +51,15 @@ defmodule Competition.Entries do
     |> Entry.changeset(attrs)
     |> Repo.insert()
   end
+  
+  @doc """
+  Creates an achievement.
+  """
+  def create_achievement(attrs \\ %{}) do
+    %Achievement{}
+    |> Achievement.changeset(attrs)
+    |> Repo.insert()
+  end
 
   @doc """
   Likes an entry.

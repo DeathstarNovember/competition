@@ -50,6 +50,13 @@ defmodule CompetitionWeb.Schema.AccountTypes do
         end)
       )
     end
+    field :achievements, list_of(:achievement) do
+      resolve(
+        assoc(:achievements, fn achievements_query, _args, _context ->
+          achievements_query 
+        end)
+      )
+    end
   end
 
   object :account_queries do
