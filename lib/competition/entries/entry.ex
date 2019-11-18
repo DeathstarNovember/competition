@@ -4,6 +4,7 @@ defmodule Competition.Entries.Entry do
   alias Competition.Accounts.User
   alias Competition.Entries.Like
   alias Competition.Entries.Comment
+  alias Competition.Entries.Achievement
 
   schema "entries" do
     field :distance, :integer
@@ -17,6 +18,7 @@ defmodule Competition.Entries.Entry do
     belongs_to :user, User
     has_many :likes, Like
     has_many :comments, Comment
+    has_one :achievement, Achievement
 
     timestamps()
   end
